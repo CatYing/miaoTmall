@@ -12,7 +12,7 @@ class RealInfo(models.Model):
     id_number = models.CharField(max_length=32)
 
     def __unicode__(self):
-        return self.myuser.user.username + u'的真实信息'
+        return u'某用户的真实信息'
 
 
 class MyUser(models.Model):
@@ -22,7 +22,7 @@ class MyUser(models.Model):
     """
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=64)
-    real_info = models.OneToOneField(RealInfo)
+    real_info = models.OneToOneField(RealInfo, blank=True, null=True)
     cellphone = models.CharField(max_length=16)
     address = models.CharField(max_length=512, blank=True)
     head_img = models.ImageField(upload_to='image/%Y/%m/%d', null=True)

@@ -15,8 +15,19 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from tmall import settings
+from django.contrib.staticfiles import views
+
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
     url(r'^', include('website.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^auth/', include('authentication.urls')),
+    url(r'^verify/', include('verify.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^static/(?P<path>.*)$', views.static.serve, {'document_root': settings.STATIC_ROOT}, name="static"),
+        url(r'^media/(?P<path>.*)$', views.static.serve, {'document_root': settings.MEDIA_ROOT}, name="media")
+    ]

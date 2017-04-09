@@ -25,7 +25,7 @@ SECRET_KEY = '(v6q(%m8&b0fqqt8k3(-1espmce@rcr93(evq447fj4$2yd$cz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.43.110","127.0.0.1"]
+ALLOWED_HOSTS = ["192.168.43.110", "127.0.0.1", "172.17.182.185"]
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'website',
     'authentication',
+    'verify',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static').replace('\\', '/')
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+
+HOST = "127.0.0.1:8000"
