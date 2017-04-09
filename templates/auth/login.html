@@ -2,13 +2,10 @@
 {% load staticfiles %}
 
 {% block title %}登录{% endblock %}
-
-
 {% block navhead %}登录{% endblock %}
 
 
 {% block content %}
-
     <div class="container">
         <div class="row">
             <div class="col m6 s12">
@@ -39,21 +36,44 @@
                     <label for="password">Password</label>
                 </div>
 
-                <div class="input-field inline">
+                <div class="input-field m6">
                     <label for="verify">验证码</label>
                     <input id="verify" type="text" class="validate">
-                    <img src="">
+                </div>
+
+                <div class="row">
+                    <div class="col m6">
+                        <a class="waves-effect waves-light btn-large">提交</a>
+                    </div>
+
+                    <div class="col m3">
+                        <img src="" id="verify-img">
+                    </div>
                 </div>
 
             </form>
         </div>
-
 
     </div>
 {% endblock %}
 
 {% block script %}
     <script>
+        /*获得验证码*/
+        var verify_id = '';
+        var verify_img_base64 = '';
+        $(document).ready(function () {
+            let options = {
+                url: '{% url 'api-get-code' %}',
+                success: function (data) {
+                    verify_id = data['verify_id'];
+                    verify_img_base64 = data['img_base64'];
+                },
+                async: false,
+            };
+            $.ajax(options);
+            $("#verify-img").attr('src', "data:image/jpg;base64," + verify_img_base64);
+        });
 
     </script>
 {% endblock %}

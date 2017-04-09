@@ -43,17 +43,18 @@
                         <a href="#"><span class="white-text name">{{ myuser.nickname }}</span></a>
                         <a href="#"><span class="white-text email">{{ myuser.cellphone }}</span></a>
                     {% else %}
-                        <a href="#"><img class="circle" src="{% static "imgs/20130121222641_Hd5xE.jpeg" %}"></a><!--点击编辑信息-->
+                        <a href="#"><img class="circle" src="{% static "imgs/20130121222641_Hd5xE.jpeg" %}"></a>
+                        <!--点击编辑信息-->
                         <a href="#"><span class="white-text name">登录查看更多</span></a>
                         <a href="#"><span class="white-text email">喵~</span></a>
                     {% endif %}
                 </div>
             </li>
             <li><a href="#" class="waves-effect">买萌</a></li>
+            <li><a href="#" class="waves-effect">寄养</a></li>
             <li>
                 <div class="divider"></div>
             </li>
-            <li><a href="#" class="waves-effect">寄养</a></li>
             {% if myuser %}
                 <li><a class="subheader">当前身份：
 
@@ -120,6 +121,20 @@
 
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/materialize.js' %}"></script>
+<script src="{% static 'js/jquery.cookie.js' %}"></script>
+<script>
+    var csrftoken = $.cookie('csrftoken');
+    function csrfSafeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+</script>
 <script>
     $(".button-collapse").sideNav();
 </script>

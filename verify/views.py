@@ -4,6 +4,7 @@ import random
 from PIL import Image, ImageDraw, ImageFont
 from tmall.settings import MEDIA_ROOT, HOST
 import hashlib, json
+import base64
 
 
 # Create your views here.
@@ -19,17 +20,18 @@ def api_generate_code(request):
     filename = hashlib.md5()
     filename.update(new_code.__str__())
     image.save(MEDIA_ROOT + "/code/" + "%s.jpg" % filename.hexdigest())
-    image_url = HOST + "/media/code/" + "%s.jpg" % filename.hexdigest()
     new_verify_code = VerifyCode(
-        url=image_url,
+        url="",
         available=True,
         code=new_code.__str__()
     )
     new_verify_code.save()
+    fp = open(MEDIA_ROOT + "/code/" + "%s.jpg" % filename.hexdigest(), "rb")
     response = {
         'verify_id': new_verify_code.id,
-        'img_url': image_url
+        'img_base64': base64.b64encode(fp.read()),
     }
+    fp.close()
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 
