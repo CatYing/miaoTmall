@@ -31,3 +31,9 @@ def api_generate_code(request):
         'img_url': image_url
     }
     return HttpResponse(json.dumps(response), content_type="application/json")
+
+
+def api_verify(request):
+    if request.method == "POST":
+        print request.body
+        return HttpResponse("2333")
