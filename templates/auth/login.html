@@ -6,6 +6,17 @@
 
 
 {% block content %}
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>信息</h4>
+            <p id="modalmessage"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">好的</a>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col m6 s12">
@@ -27,6 +38,7 @@
             </div>
 
             <form class="col m6 s12">
+                {% csrf_token %}
                 <div class="input-field m6">
                     <input id="username" type="text" class="validate" autocomplete="off">
                     <label for="username">Username</label>
@@ -43,7 +55,7 @@
 
                 <div class="row">
                     <div class="col m6">
-                        <a class="waves-effect waves-light btn-large">提交</a>
+                        <a class="waves-effect waves-light btn-large" id="submit">提交</a>
                     </div>
 
                     <div class="col m3">
@@ -58,22 +70,103 @@
 {% endblock %}
 
 {% block script %}
+    <script src="{% static 'js/encrypt.js' %}"></script>
+
     <script>
-        /*获得验证码*/
-        var verify_id = '';
-        var verify_img_base64 = '';
+        function showModal(message) {
+            $("#modalmessage")[0].innerHTML = message;
+            $("#modal1").modal('open');
+        }
+    </script>
+    <script>
+        /*获得验证码和公钥*/
+        let verify_id = '';
+        let verify_img_base64 = '';
+        let public_key = "";
+        let encrypt = new JSEncrypt();
         $(document).ready(function () {
+            $('.modal').modal();
+
             let options = {
                 url: '{% url 'api-get-code' %}',
                 success: function (data) {
                     verify_id = data['verify_id'];
                     verify_img_base64 = data['img_base64'];
+                    let publicOptions = {
+                        url: '{% url 'get_public' %}',
+                        async: false,
+                        success: function (data) {
+                            public_key = data['public'];
+                            encrypt.setPublicKey(public_key);
+                        },
+                        error: function () {
+                            showModal("获取公钥失败！");
+                        }
+                    };
+                    $.ajax(publicOptions);
                 },
                 async: false,
+                error: function () {
+                    showModal("获取验证码失败！");
+                }
             };
             $.ajax(options);
             $("#verify-img").attr('src', "data:image/jpg;base64," + verify_img_base64);
+
+
         });
+        /*先验证，后提交*/
+
+        $("#submit").click(function (e) {
+            e.preventDefault();
+            let verify_code = $("#verify").val();
+
+            let authOptions = {
+                async: false,
+                url: '{% url 'api-auth-verify' %}',
+                type: "POST",
+                data: {
+                    'id': verify_id,
+                    'code': verify_code
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.result === 1) {
+                        let unencryptData = {
+                            'username': $("#username").val() + verify_code,
+                            'password': $("#password").val(),
+                        };
+                        let encryptData = encrypt.encrypt(JSON.stringify(unencryptData));
+                        let postOptions = {
+                            async: false,
+                            url: '{% url 'api-login' %}',
+                            data: {
+                                'info': encryptData
+                            },
+                            type: "POST",
+                            success: function () {
+                                window.location.href = '{% url 'index' %}';
+                            },
+                            error: function () {
+                                showModal("登录失败");
+                            }
+                        };
+                        $.ajax(postOptions);
+
+                    }
+                    else {
+                        showModal("验证失败！请刷新重试");
+                    }
+                },
+                error: function () {
+                    showModal("服务器开小差了~请稍后再试");
+                }
+
+
+            };
+            $.ajax(authOptions);
+        })
+
 
     </script>
 {% endblock %}

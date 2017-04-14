@@ -1,3 +1,4 @@
+# coding=utf8
 from django.shortcuts import HttpResponse
 from verify.models import *
 import random
@@ -21,9 +22,8 @@ def api_generate_code(request):
     filename.update(new_code.__str__())
     image.save(MEDIA_ROOT + "/code/" + "%s.jpg" % filename.hexdigest())
     new_verify_code = VerifyCode(
-        url="",
         available=True,
-        code=new_code.__str__()
+        code=new_code.__str__(),
     )
     new_verify_code.save()
     fp = open(MEDIA_ROOT + "/code/" + "%s.jpg" % filename.hexdigest(), "rb")
@@ -37,5 +37,16 @@ def api_generate_code(request):
 
 def api_verify(request):
     if request.method == "POST":
-        print request.body
-        return HttpResponse("2333")
+        verify_id = request.POST.get("id", "")
+        verify_code = request.POST.get("code", "")
+        if VerifyCode.objects.filter(id=int(verify_id)).count() == 0:
+            return HttpResponse(json.dumps({'result': 0, "message": "不存在验证码"}), content_type='application/json')
+        else:
+            code = VerifyCode.objects.get(id=int(verify_id))
+            if not code.available:
+                return HttpResponse(json.dumps({'result': 0, "message": "验证码失效"}), content_type='application/json')
+            else:
+                if code.code != verify_code:
+                    return HttpResponse(json.dumps({'result': 0, 'message': "验证码错误"}), content_type='application/json')
+                else:
+                    return HttpResponse(json.dumps({'result': 1}), content_type='application/json')

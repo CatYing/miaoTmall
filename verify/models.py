@@ -6,6 +6,5 @@ from django.db import models
 
 
 class VerifyCode(models.Model):
-    url = models.URLField()
     available = models.BooleanField()
     code = models.CharField(max_length=16)

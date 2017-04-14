@@ -4,4 +4,5 @@ from verify import views
 urlpatterns = [
     url(r"api/get-code", views.api_generate_code, name="api-get-code"),
     url(r"api/verify-code", views.api_verify, name="api-verify-code"),
+    url(r"api/auth-verify", views.api_verify, name="api-auth-verify")
 ]
