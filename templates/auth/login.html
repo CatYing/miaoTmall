@@ -135,6 +135,7 @@
                         let unencryptData = {
                             'username': $("#username").val() + verify_code,
                             'password': $("#password").val(),
+                            'id': verify_id,
                         };
                         let encryptData = encrypt.encrypt(JSON.stringify(unencryptData));
                         let postOptions = {

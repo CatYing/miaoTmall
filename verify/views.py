@@ -3,8 +3,9 @@ from django.shortcuts import HttpResponse
 from verify.models import *
 import random
 from PIL import Image, ImageDraw, ImageFont
-from tmall.settings import MEDIA_ROOT, HOST
-import hashlib, json
+from tmall.settings import MEDIA_ROOT
+import hashlib
+import json
 import base64
 
 

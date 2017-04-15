@@ -71,7 +71,7 @@
                 <li><a class="waves-effect" href="{% url 'logout' %}">退出登录</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}">登录</a></li>
-                <li><a href="#">注册</a></li>
+                <li><a href="{% url 'register' %}">注册</a></li>
             {% endif %}
         </ul>
     </div>
