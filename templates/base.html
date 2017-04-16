@@ -30,6 +30,29 @@
 
 </style>
 
+<div id="modal_id" class="modal">
+    <div class="modal-content">
+        <h4>切换身份</h4>
+        <p>您想要切换到哪种身份？</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'switch' %}?stage=1" class=" modal-action modal-close waves-effect waves-green btn-flat">买家</a>
+        {% if user.myuser.level >= 2 %}
+            <a href="{% url 'switch' %}?stage=2"
+               class=" modal-action modal-close waves-effect waves-green btn-flat">寄养</a>
+            {% if user.myuser.level >= 3 %}
+                <a href="{% url 'switch' %}?stage=3"
+                   class=" modal-action modal-close waves-effect waves-green btn-flat">卖家</a>
+                {% if user.myuser.level >= 4 %}
+                    <a href="{% url 'switch' %}?stage=4"
+                       class=" modal-action modal-close waves-effect waves-green btn-flat">超管</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+    </div>
+</div>
+
 <header>
     <div class="container">
         <ul id="slide-out" class="side-nav fixed">
@@ -56,8 +79,7 @@
                 <div class="divider"></div>
             </li>
             {% if myuser %}
-                <li><a class="subheader">当前身份：
-
+                <li><a class="waves-effect" id="identify">当前身份：
                     {% if myuser.current_stage == 1 %}
                         买家
                     {% elif myuser.current_stage == 2 %}
@@ -68,6 +90,12 @@
                         超管
                     {% endif %}
                 </a></li>
+                {% if myuser.current_stage >= 2 %}
+                    <li><a href="#">设置寄养条件</a></li>
+                    {% if myuser.current_stage >= 3 %}
+                        <li><a href="#">店铺管理</a></li>
+                    {% endif %}
+                {% endif %}
                 <li><a class="waves-effect" href="{% url 'logout' %}">退出登录</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}">登录</a></li>
@@ -137,6 +165,13 @@
 </script>
 <script>
     $(".button-collapse").sideNav();
+    $('.modal').modal();
+</script>
+
+<script>
+    $("#identify").click(function () {
+        $("#modal_id").modal("open");
+    })
 </script>
 
 {% block script %}

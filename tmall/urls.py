@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('authentication.urls')),
     url(r'^verify/', include('verify.urls')),
+    url(r"^shop/", include('shop.urls')),
 ]
 
 if settings.DEBUG:

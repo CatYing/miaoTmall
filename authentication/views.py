@@ -40,7 +40,7 @@ def api_login(request):
             message_dict = json.loads(message)
             username = message_dict['username'][:-4]
             password = message_dict['password']
-            verify_id = int(request.POST.get("id", ""))
+            verify_id = int(message_dict['id'])
             verify_code = username[-4:]
             if not VerifyCode.objects.get(id=verify_id).available:
                 pass
@@ -57,12 +57,19 @@ def api_login(request):
                 pass
 
 
-def api_rigister(request):
-    if request.user.is_authenticated():
-        return HttpResponse(json.dumps({'authenticated': True}), content_type='application/json')
+@login_required(login_url=reverse_lazy('login'))
+def switch(request):
+    stage = int(request.GET.get("stage", ""))
+    if stage == 1:
+        request.user.myuser.current_stage = 1
+        request.user.myuser.save()
+        return HttpResponseRedirect(reverse_lazy("index"))
     else:
-        if request.method == "POST":
-            pass
+        if request.user.myuser.level >= stage:
+            request.user.myuser.current_stage = stage
+            request.user.myuser.save()
+        return HttpResponseRedirect(reverse_lazy("index"))
+
 
 
 @login_required(login_url=reverse_lazy("login"))
