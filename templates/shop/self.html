@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}我的店铺{% endblock %}
+
+{% block navhead %}我的店铺{% endblock %}
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="row">
+            {% for item in item_list %}
+                <div class="col s12 m6">
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">{{ item.prototype.name }}-{{ item.name }}</span>
+                            <p>{{ item.detail }}</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">预约</a>
+                            <a href="#">加入购物车</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block script %}
+{% endblock %}

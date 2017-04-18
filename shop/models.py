@@ -19,6 +19,7 @@ class Item(models.Model):
     prototype = models.ForeignKey(Prototype)
     myuser = models.ForeignKey(MyUser)
     detail = models.TextField()
+    available = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.myuser.user.username + "的种类为" + self.prototype.name + self.name

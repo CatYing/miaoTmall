@@ -7,52 +7,52 @@
 
 {% block content %}
 
+        <div class="row">
 
-    <div class="row">
-        <div class="col s12 m6">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{% static 'imgs/71b2cbb3ly1felhhzrvwdj20qo0zkwkq.jpg' %}">
-                    <span class="card-title">注册事项</span>
-                </div>
-                <div class="card-content">
-                    <p>你的信息不会外泄，仅被用作身份认证使用</p>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'imgs/71b2cbb3ly1felhhzrvwdj20qo0zkwkq.jpg' %}">
+                        <span class="card-title">注册事项</span>
+                    </div>
+                    <div class="card-content">
+                        <p>你的信息不会外泄，仅被用作身份认证使用</p>
+                    </div>
                 </div>
             </div>
+
+            <form class="col s12 m6" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="input-field m6">
+                    <input id="username" type="text" class="validate" name="username">
+                    <label for="username">手机号</label>
+                </div>
+                <div class="input-field m6">
+                    <input id="password" type="password" class="validate" name="password">
+                    <label for="password">Password</label>
+                </div>
+                <div class="input-field m6">
+                    <input id="name" type="text" class="validate" name="name">
+                    <label for="name">姓名</label>
+                </div>
+                <div class="input-field m6">
+                    <input id="identity" type="number" class="validate" name="identity">
+                    <label for="identity">身份证号</label>
+                </div>
+                <div class="input-field m6">
+                    <input id="nickname" type="text" class="validate" name="nickname">
+                    <label for="nickname">昵称</label>
+                </div>
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>头像</span>
+                        <input type="file" name="head">
+                    </div>
+                    <a class="waves-effect waves-light btn-large" id="submit"
+                       style="position: relative;left: 30%;">提交</a>
+                </div>
+            </form>
         </div>
-
-        <form class="col s12 m6" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="input-field m6">
-                <input id="username" type="text" class="validate" name="username">
-                <label for="username">手机号</label>
-            </div>
-            <div class="input-field m6">
-                <input id="password" type="password" class="validate" name="password">
-                <label for="password">Password</label>
-            </div>
-            <div class="input-field m6">
-                <input id="name" type="text" class="validate" name="name">
-                <label for="name">姓名</label>
-            </div>
-            <div class="input-field m6">
-                <input id="identity" type="number" class="validate" name="identity">
-                <label for="identity">身份证号</label>
-            </div>
-            <div class="input-field m6">
-                <input id="nickname" type="text" class="validate" name="nickname">
-                <label for="nickname">昵称</label>
-            </div>
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span>头像</span>
-                    <input type="file" name="head">
-                </div>
-                <a class="waves-effect waves-light btn-large" id="submit" style="position: relative;left: 30%;">提交</a>
-            </div>
-        </form>
-    </div>
-
 
 {% endblock %}
 
@@ -60,9 +60,9 @@
 
     <script>
 
-    $("#submit").click(function() {
-        $("form").submit();
-    })
+        $("#submit").click(function () {
+            $("form").submit();
+        })
 
     </script>
 {% endblock %}

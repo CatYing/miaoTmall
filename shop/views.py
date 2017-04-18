@@ -9,7 +9,7 @@ from shop.models import *
 
 
 class ShopDetailView(FrontMixin, ListView):
-    model = ItemCreateView
+    model = Item
     context_object_name = 'item_list'
     template_name = 'shop/shop.html'
 
@@ -17,12 +17,26 @@ class ShopDetailView(FrontMixin, ListView):
         return Item.objects.filter(myuser=MyUser.objects.get(pk=int(self.kwargs['pk'])))
 
 
+class ShopSelfView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, ListView):
+    login_url = reverse_lazy("login")
+    redirect_field_name = "denied"
+    model = Item
+    context_object_name = "item_list"
+    template_name = 'shop/self.html'
+
+    def test_func(self):
+        return self.request.user.myuser.current_stage >= 3
+
+    def get_queryset(self):
+        return Item.objects.filter(myuser=self.request.user.myuser)
+
+
 class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, CreateView):
     template_name = "shop/add.html"
     model = Item
     fields = ['name', 'detail']
     login_url = reverse_lazy('login')
-    success_url = reverse_lazy("shop-detail")
+    success_url = reverse_lazy("self-shop")
     redirect_field_name = 'denied'
 
     def test_func(self):
@@ -31,10 +45,10 @@ class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, Create
     def form_valid(self, form):
         form.instance.prototype = Prototype.objects.get(pk=int(self.request.POST.get("prototype")))
         form.instance.myuser = self.request.user.myuser
-        return super(ItemCreateView, self).form_invalid(form)
+        return super(ItemCreateView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
-        context = super(ItemCreateView, self).get(**kwargs)
+        context = super(ItemCreateView, self).get_context_data(**kwargs)
         context['prototype_list'] = Prototype.objects.all()
         return context
 
@@ -45,7 +59,7 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, Update
     context_object_name = 'info'
     fields = ['name', 'detail']
     template_name = 'shop/add.html'
-    success_url = reverse_lazy("shop-detail")
+    success_url = reverse_lazy("self-shop")
     redirect_field_name = 'denied'
 
     def test_func(self):

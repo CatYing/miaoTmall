@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title %}添加宠物{% endblock %}
+{% block navhead %}上架宠物{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'imgs/71b2cbb3ly1felhhzrvwdj20qo0zkwkq.jpg' %}">
+                        <span class="card-title">上架事项</span>
+                    </div>
+                    <div class="card-content">
+                        <p>认真对待每一个生命~</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="col s12 m6" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="input-field m6">
+                    <input id="name" type="text" class="validate" name="name">
+                    <label for="name">名字</label>
+                </div>
+
+
+                <div class="input-field m6">
+                    <select name="prototype">
+                        {% for prototype in prototype_list %}
+                            <option value="{{ prototype.id }}">{{ prototype.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>类别</label>
+                </div>
+
+                <div class="input-field m6">
+                    <textarea id="textarea1" class="materialize-textarea" name="detail"></textarea>
+                    <label for="textarea1">详细描述</label>
+                </div>
+
+                <div class="input-field m6">
+                    <a class="waves-effect waves-light btn-large" id="submit">提交</a>
+
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('select').material_select();
+            $("#submit").click(function() {
+                $('form').submit();
+            })
+        });
+    </script>
+{% endblock %}

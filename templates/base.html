@@ -73,7 +73,8 @@
                     {% endif %}
                 </div>
             </li>
-            <li><a href="#" class="waves-effect">买萌</a></li>
+            <li><a href="{% url 'index' %}" class="waves-effect">首页</a></li>
+            <li><a href="" class="waves-effect">店铺</a></li>
             <li><a href="#" class="waves-effect">寄养</a></li>
             <li>
                 <div class="divider"></div>
@@ -93,7 +94,7 @@
                 {% if myuser.current_stage >= 2 %}
                     <li><a href="#">设置寄养条件</a></li>
                     {% if myuser.current_stage >= 3 %}
-                        <li><a href="#">店铺管理</a></li>
+                        <li><a href="{% url 'self-shop' %}">店铺管理</a></li>
                     {% endif %}
                 {% endif %}
                 <li><a class="waves-effect" href="{% url 'logout' %}">退出登录</a></li>
