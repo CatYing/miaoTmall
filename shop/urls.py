@@ -2,6 +2,7 @@ from django.conf.urls import url
 from shop import views
 
 urlpatterns = [
-    url(r"(?P<pk>[0-9]+)/", views.ShopDetailView.as_view(), name="shop-detail"),
-
+    url(r"^detail/(?P<pk>[0-9]+)/", views.ShopDetailView.as_view(), name="shop-detail"),
+    url(r"^add", views.ItemCreateView.as_view(), name="add-item"),
+    url(r"^edit/(?P<pk>[0-9]+)", views.ItemUpdateView.as_view(), name='edit-item'),
 ]

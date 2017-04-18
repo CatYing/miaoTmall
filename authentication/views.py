@@ -71,7 +71,6 @@ def switch(request):
         return HttpResponseRedirect(reverse_lazy("index"))
 
 
-
 @login_required(login_url=reverse_lazy("login"))
 def logout(request):
     auth.logout(request)
@@ -82,6 +81,8 @@ class LoginView(FrontMixin, TemplateView):
     template_name = "auth/login.html"
 
     def dispatch(self, request, *args, **kwargs):
+        if request.GET.get("denied"):
+            return HttpResponse("You are not allowed to this page")
         if request.user.is_authenticated():
             return HttpResponseRedirect(reverse_lazy("index"))
         else:
