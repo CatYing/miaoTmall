@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'authentication',
     'verify',
     'shop',
+    'interface',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 
 HOST = "127.0.0.1:8000"
+
+BANK_HOST = "127.0.0.1:8080"
