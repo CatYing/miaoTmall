@@ -7,8 +7,10 @@ from authentication.models import *
 
 
 class SendingMessage(models.Model):
-    pass
+    datetime = models.DateTimeField()
+    content = models.TextField()
 
 
 class ReceivingMessage(models.Model):
-    pass
+    datetime = models.DateTimeField()
+    content = models.TextField()
