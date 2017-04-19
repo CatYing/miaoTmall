@@ -10,3 +10,5 @@ def ajax_login_required(view):
             raise PermissionDenied
         return view(request, *args, **kwargs)
     return wrapper
+
+

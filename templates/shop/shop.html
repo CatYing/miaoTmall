@@ -9,10 +9,50 @@
 
 
 {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content ">
+                        <span class="card-title">店家地址</span>
+                        <p>{{ detail.address }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for item in item_list %}
+            <div class="row">
+                {% for item in item_list %}
+                    <div class="col s12 m6">
+                        {% if item.locking_id %}
+                            <div class="card  indigo  lighten-1">
+                                <div class="card-content white-text">
+                                    <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-已被锁定</span>
+                                    <p>{{ item.detail }}</p>
+                                </div>
+                                <div class="card-action">
+                                    <a href="#" disabled>预约</a>
+                                    <a href="#" disabled>加入购物车</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="card  indigo  lighten-1">
+                                <div class="card-content white-text">
+                                    <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-尚未锁定</span>
+                                    <p>{{ item.detail }}</p>
+                                </div>
+                                <div class="card-action">
+                                    <a href="#">现在预约</a>
+                                    <a href="#">加入购物车</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
 
-    {% for item in item_list %}
-
-    {% endfor %}
+        {% endfor %}
+    </div>
 
 {% endblock %}
 

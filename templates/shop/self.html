@@ -12,16 +12,28 @@
         <div class="row">
             {% for item in item_list %}
                 <div class="col s12 m6">
-                    <div class="card blue-grey darken-1">
+                    {% if item.locking_id %}
+                    <div class="card indigo  lighten-1">
                         <div class="card-content white-text">
-                            <span class="card-title">{{ item.prototype.name }}-{{ item.name }}</span>
+                            <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-已被锁定</span>
                             <p>{{ item.detail }}</p>
                         </div>
                         <div class="card-action">
-                            <a href="#">预约</a>
-                            <a href="#">加入购物车</a>
+                            <a href="#">解锁</a>
+                            <a href="#">删除</a>
                         </div>
                     </div>
+                    {% else %}
+                    <div class="card indigo  lighten-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-尚未锁定</span>
+                            <p>{{ item.detail }}</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">删除</a>
+                        </div>
+                    </div>
+                {% endif %}
                 </div>
             {% endfor %}
         </div>

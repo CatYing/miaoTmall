@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import json
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView
 from website.mixin import FrontMixin
@@ -15,6 +20,17 @@ class ShopDetailView(FrontMixin, ListView):
 
     def get_queryset(self):
         return Item.objects.filter(myuser=MyUser.objects.get(pk=int(self.kwargs['pk'])))
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super(ShopDetailView, self).dispatch(request, *args, **kwargs)
+        except:
+            return render(request, 'error.html')
+
+    def get_context_data(self, **kwargs):
+        context = super(ShopDetailView, self).get_context_data(**kwargs)
+        context['detail'] = MyUser.objects.get(pk=int(self.kwargs['pk']))
+        return context
 
 
 class ShopSelfView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, ListView):
@@ -67,4 +83,35 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, Update
 
     def get_object(self, queryset=None):
         return Item.objects.get(pk=int(self.kwargs['pk']))
+
+
+@login_required(login_url=reverse_lazy("login"))
+def api_add_to_cart(request):
+    if request.method == "POST":
+        item_id = request.POST.get("item_id", "").__int__()
+        myuser_id = request.user.myuser.id
+        item = Item.objects.get(id=item_id)
+        if not item.locking_id:
+            return HttpResponse(json.dumps({'result': '0', 'message': '已被锁定'}), content_type='application/json')
+        else:
+            item.locking_id = myuser_id
+            item.save()
+            return HttpResponse(json.dumps({'result': '1'}), content_type='application/json')
+    else:
+        pass
+
+
+@login_required(login_url=reverse_lazy("login"))
+def api_move_from_cart(request):
+    if request.method == "POST":
+        item_id = request.POST.get("item_id", "").__int__()
+        myuser_id = request.user.myuser.id
+        item = Item.objects.get(id=item_id)
+        if item.locking_id != myuser_id:
+            return HttpResponse(json.dumps({'result': '0', 'message': '您没有锁定该宠物'}), content_type=
+                                'application/json')
+        else:
+            item.locking_id = 0
+            item.save()
+            return HttpResponse(json.dumps({'result': '1'}), content_type='application/json')
 
