@@ -24,7 +24,7 @@
             <form class="col s12 m6" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="input-field m6">
-                    <input id="name" type="text" class="validate" name="name">
+                    <input id="name" type="text" class="validate" name="name" value="{{ info.name }}">
                     <label for="name">名字</label>
                 </div>
 
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="input-field m6">
-                    <textarea id="textarea1" class="materialize-textarea" name="detail"></textarea>
+                    <textarea id="textarea1" class="materialize-textarea" name="detail">{{ info.detail }}</textarea>
                     <label for="textarea1">详细描述</label>
                 </div>
 

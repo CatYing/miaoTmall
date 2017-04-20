@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}购物车{% endblock %}
+
+{% block navhead %}购物车{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            {% for item in item_list %}
+                <div class="col s12 m6">
+                    <div class="card indigo  lighten-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">{{ item.name }}</span>
+                            <p>{{ item.detail }}</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">结算</a>
+                            <a href="#" data-value="{{ item.id }}" class="remove">移除购物车</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+    <script>
+
+        $(document).ready(function () {
+            $(".remove").click(function (e) {
+                let item_id = e.currentTarget.dataset.value;
+                let options = {
+                    url: '{% url 'remove-cart' %}',
+                    type: 'post',
+                    async: false,
+                    data: {
+                        'item_id': item_id,
+                    },
+                    success: function(data){
+                        if (data.result){
+                            alert("移除成功");
+                            location.reload();
+                        }
+                        else{
+                            alert(data.message);
+                        }
+                    },
+                    error: function(){
+                        alert("服务器开小差啦");
+                    }
+                };
+                $.ajax(options);
+            })
+        })
+    </script>
+
+
+{% endblock %}

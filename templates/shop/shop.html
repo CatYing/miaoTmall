@@ -20,7 +20,6 @@
                 </div>
             </div>
         </div>
-        {% for item in item_list %}
             <div class="row">
                 {% for item in item_list %}
                     <div class="col s12 m6">
@@ -30,10 +29,7 @@
                                     <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-已被锁定</span>
                                     <p>{{ item.detail }}</p>
                                 </div>
-                                <div class="card-action">
-                                    <a href="#" disabled>预约</a>
-                                    <a href="#" disabled>加入购物车</a>
-                                </div>
+
                             </div>
                         {% else %}
                             <div class="card  indigo  lighten-1">
@@ -43,7 +39,7 @@
                                 </div>
                                 <div class="card-action">
                                     <a href="#">现在预约</a>
-                                    <a href="#">加入购物车</a>
+                                    <a href="#" class="add_cart" data-value="{{ item.id }}">加入购物车</a>
                                 </div>
                             </div>
                         {% endif %}
@@ -51,7 +47,6 @@
                 {% endfor %}
             </div>
 
-        {% endfor %}
     </div>
 
 {% endblock %}
@@ -59,5 +54,34 @@
 
 
 {% block script %}
+
+    <script>
+    $(document).ready(function(){
+        $(".add_cart").click(function(e){
+            let item_id = e.currentTarget.dataset.value;
+            let options = {
+                url: '{% url 'add-cart' %}',
+                async: false,
+                type: 'post',
+                data: {
+                    'item_id': item_id,
+                },
+                success: function(data){
+                    if (data.result){
+                        alert("添加到购物车成功");
+                        location.reload();
+                    }
+                    else{
+                        alert(data.message);
+                    }
+                },
+                error: function(){
+                    alert("服务器开小差啦");
+                }
+            };
+            $.ajax(options);
+        })
+    })
+    </script>
 
 {% endblock %}

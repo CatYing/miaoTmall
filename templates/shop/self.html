@@ -13,35 +13,93 @@
             {% for item in item_list %}
                 <div class="col s12 m6">
                     {% if item.locking_id %}
-                    <div class="card indigo  lighten-1">
-                        <div class="card-content white-text">
-                            <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-已被锁定</span>
-                            <p>{{ item.detail }}</p>
+                        <div class="card indigo  lighten-1">
+                            <div class="card-content white-text">
+                                <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-已被锁定</span>
+                                <p>{{ item.detail }}</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="#" class="unlock" data-value="{{ item.id }}">解锁</a>
+                                <a href="#" class="delete" data-value="{{ item.id }}">删除</a>
+                                <a href="{% url 'edit-item' item.id %}">编辑</a>
+                            </div>
                         </div>
-                        <div class="card-action">
-                            <a href="#">解锁</a>
-                            <a href="#">删除</a>
-                        </div>
-                    </div>
                     {% else %}
-                    <div class="card indigo  lighten-1">
-                        <div class="card-content white-text">
-                            <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-尚未锁定</span>
-                            <p>{{ item.detail }}</p>
+                        <div class="card indigo  lighten-1">
+                            <div class="card-content white-text">
+                                <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-尚未锁定</span>
+                                <p>{{ item.detail }}</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="#" data-value="{{ item.id }}" class="delete">删除</a>
+                                <a href="{% url 'edit-item' item.id %}">编辑</a>
+                            </div>
                         </div>
-                        <div class="card-action">
-                            <a href="#">删除</a>
-                        </div>
-                    </div>
-                {% endif %}
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
     </div>
-
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large waves-effect waves-light pink" href="{% url 'add-item' %}"><i
+                class="material-icons">add</i></a>
+    </div>
 {% endblock %}
 
 
 
 {% block script %}
+    <script>
+        $(document).ready(function () {
+            $(".unlock").click(function (e) {
+                let item_id = e.currentTarget.dataset.value;
+                let options = {
+                    url: '{% url 'unlock' %}',
+                    type: 'get',
+                    data: {
+                        'item_id': item_id,
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result) {
+                            alert("解锁成功");
+                        }
+                        else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function () {
+                        alert("服务器开了个小差");
+                    }
+                };
+                $.ajax(options);
+            });
+
+            $(".delete").click(function (e) {
+                let item_id = e.currentTarget.dataset.value;
+                let options = {
+                    url: '{% url 'delete' %}',
+                    type: 'post',
+                    async: false,
+                    data: {
+                        'item_id': item_id,
+                    },
+                    success: function (data) {
+                        if (data.result) {
+                            alert("删除成功");
+                            location.reload();
+                        }
+                        else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function () {
+                        alert("服务器开了个小差");
+                    }
+                };
+                $.ajax(options);
+            })
+        })
+
+    </script>
 {% endblock %}

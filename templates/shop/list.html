@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}店铺列表{% endblock %}
+
+{% block navhead %}店铺列表{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            {% for myuser in myuser_list %}
+                <div class="col s12 m6">
+                    <div class="card indigo  lighten-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">{{ myuser.nickname }}的店铺</span>
+                            <p>{{ myuser.address }}</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="{% url 'shop-detail' myuser.pk %}">进入店铺</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+{% block script %}
+    <script>
+
+    </script>
+
+{% endblock %}
