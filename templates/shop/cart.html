@@ -6,6 +6,15 @@
 {% block navhead %}购物车{% endblock %}
 
 {% block content %}
+    <div id="modal_cart" class="modal">
+        <div class="modal-content">
+            <h4>信息</h4>
+            <p id="modalmessage"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat" id="modal_confirm">好的</a>
+        </div>
+    </div>
 
     <div class="container">
         <div class="row">
@@ -30,8 +39,14 @@
 
 
 {% block script %}
-    <script>
 
+    <script>
+        function showModal(message) {
+            $("#modalmessage")[0].innerHTML = message;
+            $("#modal_cart").modal('open');
+        }
+    </script>
+    <script>
         $(document).ready(function () {
             $(".remove").click(function (e) {
                 let item_id = e.currentTarget.dataset.value;
@@ -42,21 +57,23 @@
                     data: {
                         'item_id': item_id,
                     },
-                    success: function(data){
-                        if (data.result){
-                            alert("移除成功");
-                            location.reload();
+                    success: function (data) {
+                        if (data.result) {
+                            showModal("移除成功");
                         }
-                        else{
-                            alert(data.message);
+                        else {
+                            showModal(data.message);
                         }
                     },
-                    error: function(){
-                        alert("服务器开小差啦");
+                    error: function () {
+                        showModal("服务器开小差啦");
                     }
                 };
                 $.ajax(options);
-            })
+            });
+           $("#modal_confirm").click(function(){
+               location.reload();
+           })
         })
     </script>
 

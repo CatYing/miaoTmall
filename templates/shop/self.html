@@ -7,6 +7,15 @@
 
 {% block content %}
 
+    <div id="modal_self" class="modal">
+        <div class="modal-content">
+            <h4>信息</h4>
+            <p id="modalmessage"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat" id="modal_confirm">好的</a>
+        </div>
+    </div>
 
     <div class="container">
         <div class="row">
@@ -50,7 +59,18 @@
 
 {% block script %}
     <script>
+        function showModal(message) {
+            $("#modalmessage")[0].innerHTML = message;
+            $("#modal_self").modal('open');
+        }
+    </script>
+
+
+    <script>
         $(document).ready(function () {
+            $("#modal_confirm").click(function(){
+               location.reload();
+           });
             $(".unlock").click(function (e) {
                 let item_id = e.currentTarget.dataset.value;
                 let options = {
@@ -62,14 +82,14 @@
                     async: false,
                     success: function (data) {
                         if (data.result) {
-                            alert("解锁成功");
+                            showModal("解锁成功");
                         }
                         else {
-                            alert(data.message);
+                            showModal(data.message);
                         }
                     },
                     error: function () {
-                        alert("服务器开了个小差");
+                        showModal("服务器开了个小差");
                     }
                 };
                 $.ajax(options);
@@ -86,15 +106,14 @@
                     },
                     success: function (data) {
                         if (data.result) {
-                            alert("删除成功");
-                            location.reload();
+                            showModal("删除成功");
                         }
                         else {
-                            alert(data.message);
+                            showModal(data.message);
                         }
                     },
                     error: function () {
-                        alert("服务器开了个小差");
+                        showModal("服务器开了个小差");
                     }
                 };
                 $.ajax(options);
