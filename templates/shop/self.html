@@ -26,6 +26,7 @@
                             <div class="card-content white-text">
                                 <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-已被锁定</span>
                                 <p>{{ item.detail }}</p>
+                                <p>{{ item.price }}</p>
                             </div>
                             <div class="card-action">
                                 <a href="#" class="unlock" data-value="{{ item.id }}">解锁</a>
@@ -38,6 +39,7 @@
                             <div class="card-content white-text">
                                 <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-尚未锁定</span>
                                 <p>{{ item.detail }}</p>
+                                <p>价格：{{ item.price }}</p>
                             </div>
                             <div class="card-action">
                                 <a href="#" data-value="{{ item.id }}" class="delete">删除</a>
@@ -68,9 +70,9 @@
 
     <script>
         $(document).ready(function () {
-            $("#modal_confirm").click(function(){
-               location.reload();
-           });
+            $("#modal_confirm").click(function () {
+                location.reload();
+            });
             $(".unlock").click(function (e) {
                 let item_id = e.currentTarget.dataset.value;
                 let options = {

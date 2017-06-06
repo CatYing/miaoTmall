@@ -51,7 +51,7 @@ class ShopSelfView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, ListView
 class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, CreateView):
     template_name = "shop/add.html"
     model = Item
-    fields = ['name', 'detail']
+    fields = ['name', 'detail', 'price']
     login_url = reverse_lazy('login')
     success_url = reverse_lazy("self-shop")
     redirect_field_name = 'denied'
@@ -74,7 +74,7 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, FrontMixin, Update
     login_url = reverse_lazy("login")
     model = Item
     context_object_name = 'info'
-    fields = ['name', 'detail']
+    fields = ['name', 'detail', 'price']
     template_name = 'shop/add.html'
     success_url = reverse_lazy("self-shop")
     redirect_field_name = 'denied'

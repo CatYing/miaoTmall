@@ -1,3 +1,5 @@
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from website.mixin import FrontMixin
 # Create your views here.
@@ -6,6 +8,5 @@ from website.mixin import FrontMixin
 class IndexView(FrontMixin, TemplateView):
     template_name = "index.html"
 
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-        return context
+    def dispatch(self, request, *args, **kwargs):
+        return HttpResponseRedirect(reverse_lazy("list"))

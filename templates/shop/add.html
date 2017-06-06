@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <form class="col s12 m6" method="post" enctype="multipart/form-data">
+            <form class="col s12 m6" method="post">
                 {% csrf_token %}
                 <div class="input-field m6">
                     <input id="name" type="text" class="validate" name="name" value="{{ info.name }}">
@@ -36,6 +36,11 @@
                         {% endfor %}
                     </select>
                     <label>类别</label>
+                </div>
+
+                <div class="input-field m6">
+                    <input id="price" type="number" class="validate" name="price" value="{{ info.price }}">
+                    <label for="price">价格</label>
                 </div>
 
                 <div class="input-field m6">
@@ -56,7 +61,7 @@
     <script>
         $(document).ready(function () {
             $('select').material_select();
-            $("#submit").click(function() {
+            $("#submit").click(function () {
                 $('form').submit();
             })
         });

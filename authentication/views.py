@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from website.utils import ajax_login_required
 from django.contrib import auth
 from website.mixin import FrontMixin
 import json

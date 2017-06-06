@@ -93,7 +93,6 @@
                     {% endif %}
                 </a></li>
                 {% if myuser.current_stage >= 2 %}
-                    <li><a href="#">设置寄养条件</a></li>
                     {% if myuser.current_stage >= 3 %}
                         <li><a href="{% url 'self-shop' %}">店铺管理</a></li>
                     {% endif %}
