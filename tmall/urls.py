@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^auth/', include('authentication.urls')),
     url(r'^verify/', include('verify.urls')),
     url(r"^shop/", include('shop.urls')),
+    url(r"^order/", include('order.urls')),
 ]
 
 if settings.DEBUG:

@@ -21,6 +21,7 @@ class Item(models.Model):
     detail = models.TextField()
     locking_id = models.IntegerField(blank=True, null=True)
     price = models.IntegerField(default=2000)
+    available = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.myuser.user.username + "的种类为" + self.prototype.name + self.name

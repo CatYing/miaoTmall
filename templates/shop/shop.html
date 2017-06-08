@@ -52,7 +52,7 @@
                                 <p>价格：{{ item.price }}</p>
                             </div>
                             <div class="card-action">
-                                <a href="#">现在预约</a>
+                                <a href="{% url 'single-cal' item.pk %}">现在预约</a>
                                 <a href="#" class="add_cart" data-value="{{ item.id }}">加入购物车</a>
                             </div>
                         </div>

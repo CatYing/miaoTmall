@@ -21,6 +21,15 @@
         <div class="row">
             {% for item in item_list %}
                 <div class="col s12 m6">
+                {% if item.available %}
+                <div class="card indigo  lighten-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">{{ item.prototype.name }}-{{ item.name }}-已被购买</span>
+                        <p>{{ item.detail }}</p>
+                        <p>{{ item.price }}</p>
+                    </div>
+                </div>
+                {% else %}
                     {% if item.locking_id %}
                         <div class="card indigo  lighten-1">
                             <div class="card-content white-text">
@@ -47,6 +56,7 @@
                             </div>
                         </div>
                     {% endif %}
+                {% endif %}
                 </div>
             {% endfor %}
         </div>

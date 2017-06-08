@@ -20,7 +20,7 @@ class ShopDetailView(FrontMixin, ListView):
     template_name = 'shop/shop.html'
 
     def get_queryset(self):
-        return Item.objects.filter(myuser=MyUser.objects.get(pk=int(self.kwargs['pk'])))
+        return Item.objects.filter(myuser=MyUser.objects.get(pk=int(self.kwargs['pk'])), available=True)
 
     def dispatch(self, request, *args, **kwargs):
         try:

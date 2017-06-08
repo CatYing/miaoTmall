@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'verify',
     'shop',
     'interface',
+    'order',
 ]
 
 MIDDLEWARE = [
