@@ -15,4 +15,4 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     item = models.OneToOneField(Item)
-    order = models.ForeignKey(Order)
+    order = models.ForeignKey(Order, related_name='order_item')

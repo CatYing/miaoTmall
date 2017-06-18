@@ -11,6 +11,7 @@ import datetime
 
 @login_required(login_url=reverse_lazy('login'))
 def single_item_cal(request, pk):
+    myuser = request.user.myuser
     item_id = int(pk)
     item = Item.objects.get(pk=item_id)
     if item.locking_id or not item.available:
@@ -32,6 +33,7 @@ def single_item_cal(request, pk):
             'order': new_order,
             'order_item': new_order_item,
             'seller': item.myuser,
+            'myuser': myuser,
         }
         item.available = False
         item.save()
@@ -41,4 +43,19 @@ def single_item_cal(request, pk):
 @login_required(login_url=reverse_lazy('login'))
 def cart_item_cal(request):
     myuser = request.user.myuser
-    pass
+    item_set = Item.objects.filter(locking_id=myuser.id)
+    seller_existed = []
+    for item in item_set:
+        if item.myuser in seller_existed:
+            pass
+
+
+@login_required(login_url=reverse_lazy('login'))
+def order_list(request):
+    myuser = request.user.myuser
+    order_list = Order.objects.filter(buyer_id=myuser.id)
+    content = {
+        'order_list': order_list,
+        'myuser': myuser
+    }
+    return render(request, 'order/list.html', content)

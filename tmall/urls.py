@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^verify/', include('verify.urls')),
     url(r"^shop/", include('shop.urls')),
     url(r"^order/", include('order.urls')),
+    url(r'^interface/', include('interface.urls')),
 ]
 
 if settings.DEBUG:
