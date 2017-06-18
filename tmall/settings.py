@@ -135,3 +135,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 HOST = "127.0.0.1:8000"
 
 BANK_HOST = "127.0.0.1:8080"
+
+API_KEY = 'pTJJLahVftuLqdMYj9AjzZVFrTQwMK0_'
+
+API_SECRET = '-UzyxqK05ewdQUA4FIO7iOOl5tyRzDxp'

@@ -28,6 +28,7 @@ class MyUser(models.Model):
     head_img = models.ImageField(upload_to='image/%Y/%m/%d', null=True)
     level = models.IntegerField(default=1)
     current_stage = models.IntegerField(default=1)
+    face_token = models.CharField(max_length=256, blank=True, null=True)
 
     def __unicode__(self):
         return self.user.username
