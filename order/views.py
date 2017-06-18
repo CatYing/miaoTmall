@@ -98,6 +98,10 @@ def face_pay(request):
         else:
             if response.has_key('confidence'):
                 if float(response.get("confidence")) >= 0.75:
+                    order_id = int(request.GET.get('order_id', ''))
+                    order = Order.objects.get(id=order_id)
+                    order.state = 1
+                    order.save()
                     return HttpResponse(json.dumps({'data': "支付成功"}), content_type='application/json')
                 else:
                     return HttpResponse(json.dumps({'error': True, 'data': "无法认证，尝试其他支付方法"}), content_type="application/json")
